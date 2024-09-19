@@ -83,7 +83,7 @@ namespace MyWarsha_API.Controllers
             await _carInfoRepository.Add(carInfo);
             await _carInfoRepository.SaveChanges();
 
-            return CreatedAtAction(nameof(GetById), new { id = carInfo.Id });
+            return CreatedAtAction(nameof(GetById), new { id = carInfo.Id }, null);
         }
 
         [HttpPut("{id}")]

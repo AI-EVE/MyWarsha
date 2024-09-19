@@ -79,7 +79,7 @@ namespace MyWarsha_API.Controllers
             await _clientRepository.Add(newClient);
             await _clientRepository.SaveChanges();
 
-            return CreatedAtAction(nameof(GetById), new { id = newClient.Id });
+            return CreatedAtAction(nameof(GetById), new { id = newClient.Id }, null);
         }
 
         [HttpPut("{id}")]
