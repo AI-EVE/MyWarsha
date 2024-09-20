@@ -13,7 +13,7 @@ namespace MyWarsha_Models.Models
         public string? ChassisNumber { get; set; }
         public string? MotorNumber { get; set; }
         public string? Notes { get; set; }
-        public List<CarImage>? CarImages { get; set; } = [];
+        public List<CarImage> CarImages { get; set; } = [];
         
         [ForeignKey("ClientId")]
         public Client Client { get; set; } = null!;

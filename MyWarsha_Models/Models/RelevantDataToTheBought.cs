@@ -10,7 +10,7 @@ namespace MyWarsha_Models.Models
         public string ShopName { get; set; } = null!;
    
         [Required]
-        public DateTime DateOfOrder { get; set; }
+        public DateOnly DateOfOrder { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
         public List<ProductBought> ProductsBought { get; set; } = [];
     }

@@ -28,7 +28,7 @@ namespace MyWarsha_DTOs.CarDTOs
                 Notes = car.Notes,
                 ClientId = car.ClientId,
                 CarInfo = CarInfoDto.ToCarInfoDto(car.CarInfo),
-                CarImages = car.CarImages != null ? car.CarImages.Select(CarImageDto.ToCarImageDto).ToList() : []
+                CarImages = car.CarImages.Select(CarImageDto.ToCarImageDto).ToList()
             };
         }
     }

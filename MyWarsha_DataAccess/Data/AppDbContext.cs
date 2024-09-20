@@ -17,6 +17,9 @@ namespace MyWarsha_DataAccess.Data
         public DbSet<CarMaker> CarMaker { get; set; }
         public DbSet<CarModel> CarModel { get; set; }
         public DbSet<CarGeneration> CarGeneration { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<ProductBrand> ProductBrand { get; set; }
+        public DbSet<ProductType> ProductType { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
         public DbSet<ProductToSell> ProductToSell { get; set; }

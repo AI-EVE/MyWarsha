@@ -7,11 +7,15 @@ namespace MyWarsha_Models.Models
     {
         [Key]
         public string Name { get; set; } = null!;
-        [Required]
-        public string Category { get; set; } = null!;
-        public string Type { get; set; } = null!;
-        public string Brand{ get; set; } = null!;
-        public DateTime DateAdded { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; } = null!;
+        public int CategoryId { get; set; }
+        [ForeignKey("ProductTypeId")]
+        public ProductType ProductType { get; set; } = null!;
+        public int ProductTypeId { get; set; }
+        [ForeignKey("ProductBrandId")]
+        public ProductBrand ProductBrand { get; set; } = null!;
+        public DateOnly DateAdded { get; set; }
         public string Description { get; set; } = null!;
         public int UnitsSold { get; set; }
         
