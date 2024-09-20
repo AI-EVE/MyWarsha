@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using MyWarsha_DTOs.CarModelDTOs;
 
 namespace MyWarsha_Models.Models
 {
@@ -19,14 +18,6 @@ namespace MyWarsha_Models.Models
    
         public List<CarGeneration> CarGenerations { get; set; } = [];
 
-        public static CarModelDto ToDto(CarModel carModel)
-        {
-            return new CarModelDto
-            {
-                Id = carModel.Id,
-                Name = carModel.Name,
-                Notes = carModel.Notes,
-            };
-        }
+        
     }
 }

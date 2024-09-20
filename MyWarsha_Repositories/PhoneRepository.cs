@@ -19,17 +19,30 @@ namespace MyWarsha_Repositories
 
         public async Task<IEnumerable<PhoneDto>> GetAll(PaginationPropreties paginationPropreties)
         {
-            return await _context.Phone.Select(GetPhoneDtoExpression()).OrderBy(x => x.Id).Skip(paginationPropreties.Skip()).Take(paginationPropreties.PageSize).AsNoTracking().ToListAsync();
+            return await _context.Phone.Select(x => PhoneDto.ToPhoneDto(x))
+            .Skip(paginationPropreties.Skip())
+            .Take(paginationPropreties.PageSize)
+            .AsNoTracking()
+            .ToListAsync();
         }
 
         public async Task<IEnumerable<PhoneDto>> GetAll(Expression<Func<Phone, bool>> predicate, PaginationPropreties paginationPropreties)
         {
-            return await _context.Phone.Where(predicate).Select(GetPhoneDtoExpression()).OrderBy(x => x.Id).Skip(paginationPropreties.Skip()).Take(paginationPropreties.PageSize).AsNoTracking().ToListAsync();
+            return await _context.Phone.Where(predicate)
+            .Select(x => PhoneDto.ToPhoneDto(x))
+            .Skip(paginationPropreties.Skip())
+            .Take(paginationPropreties.PageSize)
+            .AsNoTracking()
+            .ToListAsync();
         }
 
         public async Task<PhoneDto?> Get(Expression<Func<Phone, bool>> predicate)
         {
-            return await _context.Phone.Where(predicate).Select(GetPhoneDtoExpression()).AsNoTracking().FirstOrDefaultAsync();
+            return await _context.Phone
+            .Where(predicate)
+            .Select(x => PhoneDto.ToPhoneDto(x))
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
         }
 
         public async Task<Phone?> GetById(int id)
@@ -40,16 +53,6 @@ namespace MyWarsha_Repositories
         public int Count(Expression<Func<Phone, bool>> predicate)
         {
             return _context.Phone.Count(predicate);
-        }
-
-        private static Expression<Func<Phone, PhoneDto>> GetPhoneDtoExpression()
-        {
-            return x => new PhoneDto
-            {
-                Id = x.Id,
-                Number = x.Number,
-                ClientId = x.ClientId
-            };
         }
     }
 }

@@ -21,49 +21,39 @@ namespace MyWarsha_Repositories
 
         public async Task<CarInfoDto?> Get(Expression<Func<CarInfo, bool>> predicate)
         {
-            return await _context.CarInfo.Where(predicate).Select(GetCarInfoDtoExpression()).FirstOrDefaultAsync();
+            return await _context.CarInfo.Where(predicate)
+                .Include(c => c.CarMaker)
+                .Include(c => c.CarModel)
+                .Include(c => c.CarGeneration)
+                .Select(x => CarInfoDto.ToCarInfoDto(x))
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<CarInfoDto>> GetAll(PaginationPropreties paginationPropreties)
         {
-            return await _context.CarInfo.Select(GetCarInfoDtoExpression()).Skip(paginationPropreties.Skip()).Take(paginationPropreties.PageSize).ToListAsync();
+            return await _context.CarInfo .Include(c => c.CarMaker)
+                .Include(c => c.CarModel)
+                .Include(c => c.CarGeneration)
+                .Select(x => CarInfoDto.ToCarInfoDto(x))
+                .Skip(paginationPropreties.Skip())
+                .Take(paginationPropreties.PageSize)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<CarInfoDto>> GetAll(PaginationPropreties paginationPropreties, Expression<Func<CarInfo, bool>> predicate)
         {
-            return await _context.CarInfo.Where(predicate).Select(GetCarInfoDtoExpression()).Skip(paginationPropreties.Skip()).Take(paginationPropreties.PageSize).ToListAsync();
+            return await _context.CarInfo.Where(predicate) .Include(c => c.CarMaker)
+                .Include(c => c.CarModel)
+                .Include(c => c.CarGeneration)
+                .Select(x => CarInfoDto.ToCarInfoDto(x))
+                .Skip(paginationPropreties.Skip())
+                .Take(paginationPropreties.PageSize)
+                .ToListAsync();
         }
 
         public async Task<CarInfo?> GetById(int id)
         {
             return await _context.CarInfo.FirstOrDefaultAsync(c => c.Id == id);
-        }
-
-        private static Expression<Func<CarInfo, CarInfoDto>> GetCarInfoDtoExpression()
-        {
-            return x => new CarInfoDto
-            {
-                Id = x.Id,
-                CarMaker = new CarMakerDto
-                {
-                    Id = x.CarMaker.Id,
-                    Name = x.CarMaker.Name,
-                    Logo = x.CarMaker.Logo,
-                    Notes = x.CarMaker.Notes
-                },
-                CarModel = new CarModelDto
-                {
-                    Id = x.CarModel.Id,
-                    Name = x.CarModel.Name,
-                    Notes = x.CarModel.Notes,
-                },
-                CarGeneration = new CarGenerationDto
-                {
-                    Id = x.CarGeneration.Id,
-                    Name = x.CarGeneration.Name,
-                    Notes = x.CarGeneration.Notes
-                }
-            };
         }
     }
 }

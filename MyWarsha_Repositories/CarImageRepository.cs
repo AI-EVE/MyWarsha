@@ -20,7 +20,7 @@ namespace MyWarsha_Repositories
         {
             return await _context.CarImage
                 .Where(ci => ci.CarId == carId)
-                .Select(GetCarImageDtoExpression())
+                .Select(ci => CarImageDto.ToCarImageDto(ci))
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -43,7 +43,7 @@ namespace MyWarsha_Repositories
         {
             return await _context.CarImage
                 .Where(ci => ci.CarId == carId && ci.IsMain)
-                .Select(GetCarImageDtoExpression())
+                .Select(ci => CarImageDto.ToCarImageDto(ci))
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
@@ -58,17 +58,6 @@ namespace MyWarsha_Repositories
         {
             return _context.CarImage
                 .Count(ci => ci.CarId == carId);
-        }
-
-        private static Expression<Func<CarImage, CarImageDto>> GetCarImageDtoExpression()
-        {
-            return ci => new CarImageDto
-            {
-                Id = ci.Id,
-                ImagePath = ci.ImagePath,
-                IsMain = ci.IsMain,
-                CarId = ci.CarId
-            };
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using MyWarsha_DTOs.CarGenerationDtos;
 
 namespace MyWarsha_Models.Models
 {
@@ -15,15 +14,5 @@ namespace MyWarsha_Models.Models
         [ForeignKey("CarModelId")]
         public CarModel CarModel { get; set; } = null!;
         public int CarModelId { get; set; }
-
-        public static CarGenerationDto ToDto(CarGeneration carGeneration)
-        {
-            return new CarGenerationDto
-            {
-                Id = carGeneration.Id,
-                Name = carGeneration.Name,
-                Notes = carGeneration.Notes,
-            };
-        }
     }
 }

@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using MyWarsha_DTOs.CarInfoDTOs;
 
 namespace MyWarsha_Models.Models
 {
@@ -21,15 +20,5 @@ namespace MyWarsha_Models.Models
 
         public List<Product> Products { get; set; } = [];
 
-        public static CarInfoDto ToDto(CarInfo carInfo)
-        {
-            return new CarInfoDto
-            {
-                Id = carInfo.Id,
-                CarMaker = CarMaker.ToDto(carInfo.CarMaker),
-                CarModel = CarModel.ToDto(carInfo.CarModel),
-                CarGeneration = CarGeneration.ToDto(carInfo.CarGeneration)
-            };
-        }
     }
 }

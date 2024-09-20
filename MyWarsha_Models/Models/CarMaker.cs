@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using MyWarsha_DTOs.CarMakerDtos;
 
 namespace MyWarsha_Models.Models
 {
@@ -12,15 +11,6 @@ namespace MyWarsha_Models.Models
         public string? Notes { get; set; }
         public string? Logo { get; set; }
 
-        public static CarMakerDto ToDto(CarMaker carMaker)
-        {
-            return new CarMakerDto
-            {
-                Id = carMaker.Id,
-                Name = carMaker.Name,
-                Notes = carMaker.Notes,
-                Logo = carMaker.Logo
-            };
-        }
+       
     }
 }
