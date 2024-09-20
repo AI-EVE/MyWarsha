@@ -44,6 +44,7 @@ namespace MyWarsha_API.Controllers
 
         [HttpGet("filter")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Search([FromQuery] CategoryFilters filters)
         {
             var predicate = PredicateBuilder.New<Category>(true);
@@ -54,6 +55,11 @@ namespace MyWarsha_API.Controllers
             }
 
             var category = await _categoryRepository.Get(predicate);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
 
             return Ok(category);
         }

@@ -48,6 +48,7 @@ namespace MyWarsha_API.Controllers
 
         [HttpGet("filter")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Search([FromQuery] ProductBrandFilters filters)
         {
             var predicate = PredicateBuilder.New<ProductBrand>(true);
@@ -58,6 +59,11 @@ namespace MyWarsha_API.Controllers
             }
 
             var productBrand = await _productBrandRepository.Get(predicate);
+
+            if (productBrand == null)
+            {
+                return NotFound();
+            }
 
             return Ok(productBrand);
         }

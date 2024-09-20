@@ -44,6 +44,7 @@ namespace MyWarsha_API.Controllers
 
         [HttpGet("filter")]
         [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Search([FromQuery] ProductTypeFilters filters)
         {
             var predicate = PredicateBuilder.New<ProductType>(true);
@@ -54,6 +55,11 @@ namespace MyWarsha_API.Controllers
             }
 
             var productType = await _productTypeRepository.Get(predicate);
+
+            if (productType == null)
+            {
+                return NotFound();
+            }
 
             return Ok(productType);
         }
