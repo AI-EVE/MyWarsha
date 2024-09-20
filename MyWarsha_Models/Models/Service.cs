@@ -6,7 +6,7 @@ namespace MyWarsha_Models.Models
     {
         public int Id { get; set; }
 
-        DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
         [ForeignKey("ClientId")]
         public Client Client { get; set; } = null!;
