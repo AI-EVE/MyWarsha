@@ -73,17 +73,21 @@ namespace MyWarsha_Repositories
                         CarMaker = new CarMakerDto
                         {
                             Id = car.CarInfo.CarMaker.Id,
-                            Name = car.CarInfo.CarMaker.Name
+                            Name = car.CarInfo.CarMaker.Name,
+                            Logo = car.CarInfo.CarMaker.Logo,
+                            Notes = car.CarInfo.CarMaker.Notes
                         },
                         CarModel = new CarModelDto
                         {
                             Id = car.CarInfo.CarModel.Id,
-                            Name = car.CarInfo.CarModel.Name
+                            Name = car.CarInfo.CarModel.Name,
+                            Notes = car.CarInfo.CarModel.Notes
                         },
                         CarGeneration = new CarGenerationDto
                         {
                             Id = car.CarInfo.CarGeneration.Id,
-                            Name = car.CarInfo.CarGeneration.Name
+                            Name = car.CarInfo.CarGeneration.Name,
+                            Notes = car.CarInfo.CarGeneration.Notes
                         }
                     },
                     CarImages = car.CarImages != null ? car.CarImages.Select(carImage => new CarImageDto

@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using MyWarsha_DTOs.CarDTOs;
 using MyWarsha_Interfaces.RepositoriesInterfaces;
+using MyWarsha_Interfaces.ServicesInterfaces.AzureServicesInterfaces;
 using MyWarsha_Models.Models;
 using Utils.FilteringUtils.CarFilters;
 using Utils.PageUtils;
@@ -17,9 +14,13 @@ namespace MyWarsha_API.Controllers
     public class CarsController : ControllerBase
     {
         private readonly ICarRepository _carRepository;
+        private readonly ICarImageRepository _carImageRepository;
+        private readonly IDeleteImageService _deleteImageService;
 
-        public CarsController(ICarRepository carRepository)
+        public CarsController(ICarRepository carRepository, ICarImageRepository carImageRepository, IDeleteImageService deleteImageService)
         {
+            _deleteImageService = deleteImageService;
+            _carImageRepository = carImageRepository;
             _carRepository = carRepository;
         }
 
@@ -146,7 +147,15 @@ namespace MyWarsha_API.Controllers
                 return NotFound();
             }
 
+            var carImages = await _carImageRepository.GetAllEntities(id);
+
+            foreach (var carImage in carImages)
+            {
+                await _deleteImageService.DeleteImage(carImage.ImagePath);
+            }
+
             _carRepository.Delete(car);
+
             await _carRepository.SaveChanges();
 
             return NoContent();

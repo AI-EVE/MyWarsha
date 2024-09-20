@@ -7,6 +7,7 @@ namespace MyWarsha_DTOs.CarImageDTOs
     {
         [Required]
         public IFormFile Image { get; set; } = null!;
+        [Required]
         public int CarId { get; set; }
     }
 }

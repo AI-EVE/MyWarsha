@@ -17,6 +17,8 @@ namespace MyWarsha_API.Extensions
             services.AddScoped<ICarGenerationRepository, CarGenerationRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IPhoneRepository, PhoneRepository>();
+            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<ICarImageRepository, CarImageRepository>();
 
             return services;
         }

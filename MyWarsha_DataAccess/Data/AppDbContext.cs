@@ -24,6 +24,7 @@ namespace MyWarsha_DataAccess.Data
         public DbSet<RelevantDataToTheBought> RelevantDataToTheBought { get; set; }
         public DbSet<ServiceFee> ServiceFee { get; set; }
         public DbSet<Service> Service { get; set; }
+        public IEnumerable<object> CarImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
