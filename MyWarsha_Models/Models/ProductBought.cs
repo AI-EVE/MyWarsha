@@ -16,9 +16,9 @@ namespace MyWarsha_Models.Models
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Total { get; set; }
 
-        [ForeignKey("ProductName")]
+        [ForeignKey("ProductId")]
         public Product Product { get; set; } = null!;
-        public string ProductName { get; set; } = null!;
+        public int ProductId { get; set; }
 
         [ForeignKey("RelevantDataToTheBoughtId")]
         public RelevantDataToTheBought RelevantDataToTheBought { get; set; } = null!;

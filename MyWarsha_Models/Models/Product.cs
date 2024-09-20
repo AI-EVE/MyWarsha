@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyWarsha_Models.Models
 {
+    [Index(nameof(Name), IsUnique = true)]
     public class Product
     {
-        [Key]
+        public int Id { get; set; }
         public string Name { get; set; } = null!;
         [ForeignKey("CategoryId")]
         public Category Category { get; set; } = null!;
@@ -15,10 +17,10 @@ namespace MyWarsha_Models.Models
         public int ProductTypeId { get; set; }
         [ForeignKey("ProductBrandId")]
         public ProductBrand ProductBrand { get; set; } = null!;
-        public DateOnly DateAdded { get; set; }
-        public string Description { get; set; } = null!;
-        public int UnitsSold { get; set; }
-        
+        public int ProductBrandId { get; set; }
+        public DateOnly DateAdded { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        public string? Description { get; set; }
+
         [Column(TypeName = "decimal(18, 2)")]
         [Required]
         public decimal ListPrice { get; set; }

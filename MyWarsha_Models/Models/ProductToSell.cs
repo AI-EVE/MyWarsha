@@ -17,9 +17,9 @@ namespace MyWarsha_Models.Models
         public decimal Discount { get; set; }
         public int Count { get; set; }
 
-        [ForeignKey("ProductName")]
+        [ForeignKey("ProductId")]
         public Product Product { get; set; } = null!;
-        public string ProductName { get; set; } = null!;
+        public int ProductId { get; set; }
 
         [ForeignKey("ServiceId")]
         public Service Service { get; set; } = null!;

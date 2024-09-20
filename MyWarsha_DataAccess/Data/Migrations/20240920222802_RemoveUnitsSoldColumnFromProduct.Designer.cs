@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWarsha_DataAccess.Data;
 
@@ -11,9 +12,11 @@ using MyWarsha_DataAccess.Data;
 namespace MyWarsha_DataAccess.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240920222802_RemoveUnitsSoldColumnFromProduct")]
+    partial class RemoveUnitsSoldColumnFromProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,12 +30,12 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Property<int>("CarInfosId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductsName")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("CarInfosId", "ProductsId");
+                    b.HasKey("CarInfosId", "ProductsName");
 
-                    b.HasIndex("ProductsId");
+                    b.HasIndex("ProductsName");
 
                     b.ToTable("CarInfoProduct");
                 });
@@ -263,11 +266,8 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
             modelBuilder.Entity("MyWarsha_Models.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -276,14 +276,11 @@ namespace MyWarsha_DataAccess.Data.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ListPrice")
                         .HasColumnType("decimal(18, 2)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProductBrandId")
                         .HasColumnType("int");
@@ -297,12 +294,9 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("Name");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.HasIndex("ProductBrandId");
 
@@ -328,8 +322,9 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("RelevantDataToTheBoughtId")
                         .HasColumnType("int");
@@ -339,7 +334,7 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductName");
 
                     b.HasIndex("RelevantDataToTheBoughtId");
 
@@ -378,12 +373,13 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Property<bool>("IsMain")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductName");
 
                     b.ToTable("ProductImage");
                 });
@@ -402,8 +398,9 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
@@ -413,7 +410,7 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductName");
 
                     b.HasIndex("ServiceId");
 
@@ -524,7 +521,7 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
                     b.HasOne("MyWarsha_Models.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductsId")
+                        .HasForeignKey("ProductsName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -650,7 +647,7 @@ namespace MyWarsha_DataAccess.Data.Migrations
                 {
                     b.HasOne("MyWarsha_Models.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -669,7 +666,7 @@ namespace MyWarsha_DataAccess.Data.Migrations
                 {
                     b.HasOne("MyWarsha_Models.Models.Product", "Product")
                         .WithMany("ProductImages")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -680,7 +677,7 @@ namespace MyWarsha_DataAccess.Data.Migrations
                 {
                     b.HasOne("MyWarsha_Models.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

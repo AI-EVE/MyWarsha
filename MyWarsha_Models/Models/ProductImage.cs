@@ -8,8 +8,8 @@ namespace MyWarsha_Models.Models
         public string ImageUrl { get; set; } = null!;
         public bool IsMain { get; set; }
         
-        [ForeignKey("ProductName")]
+        [ForeignKey("ProductId")]
         public Product Product { get; set; } = null!;
-        public string ProductName { get; set; } = null!;
+        public int ProductId { get; set; }
     }
 }
