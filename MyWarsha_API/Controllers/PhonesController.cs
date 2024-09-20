@@ -143,5 +143,14 @@ namespace MyWarsha_API.Controllers
 
             return Ok(count);
         }
+
+        [HttpGet("count/all")]
+        [ProducesResponseType(200)]
+        public IActionResult CountAll()
+        {
+            var count = _phoneRepository.Count();
+
+            return Ok(count);
+        }
     }
 }

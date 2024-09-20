@@ -1,13 +1,12 @@
-using System.ComponentModel.DataAnnotations;
-
-namespace MyWarsha_DTOs.CarDTOs
+namespace Utils.FilteringUtils.CarFilters
 {
-    public class CarUpdateDto
+    public class CarFilters
     {
         public string? Color { get; set; }
         public string? PlateNumber { get; set; } = null!;
         public string? ChassisNumber { get; set; }
         public string? MotorNumber { get; set; }
-        public string? Notes { get; set; }
+        public int? ClientId { get; set; }
+        public int? CarInfoId { get; set; }
     }
 }
