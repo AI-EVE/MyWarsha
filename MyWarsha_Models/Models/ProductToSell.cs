@@ -12,6 +12,9 @@ namespace MyWarsha_Models.Models
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Discount { get; set; }
         public int Count { get; set; }
+        public bool IsReturned { get; set; } = false;
+        
+        public string? Note { get; set; }
 
         [ForeignKey("ProductId")]
         public Product Product { get; set; } = null!;

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWarsha_DataAccess.Data;
 
@@ -11,9 +12,11 @@ using MyWarsha_DataAccess.Data;
 namespace MyWarsha_DataAccess.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240921190705_AddIsReturnedToBothProductBoughtAndProductToSell")]
+    partial class AddIsReturnedToBothProductBoughtAndProductToSell
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,9 +334,6 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Property<bool>("IsReturned")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("PricePerUnit")
                         .HasColumnType("decimal(18, 2)");
 
@@ -410,9 +410,6 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
                     b.Property<bool>("IsReturned")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");

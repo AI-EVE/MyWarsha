@@ -14,7 +14,10 @@ namespace MyWarsha_Models.Models
         [Required]
         [Range(1, int.MaxValue)]
         public int Count { get; set; }
-        
+        public bool IsReturned { get; set; } = false;
+
+        public string? Note { get; set; }
+
         [NotMapped]
         public decimal Total { get; set; }
 
