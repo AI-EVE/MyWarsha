@@ -4,6 +4,7 @@ namespace MyWarsha_DTOs.ProductDTOs
 {
     public class ProductDtoMulti
     {
+        public int Id { get; set; }
         public string Name { get; set; } = null!;
         public DateOnly DateAdded { get; set; }
         public string? Description { get; set; }

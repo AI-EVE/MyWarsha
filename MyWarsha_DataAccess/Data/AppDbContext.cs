@@ -21,6 +21,7 @@ namespace MyWarsha_DataAccess.Data
         public DbSet<ProductBrand> ProductBrand { get; set; }
         public DbSet<ProductType> ProductType { get; set; }
         public DbSet<Product> Product { get; set; }
+        public DbSet<CarInfoProduct> CarInfoProduct { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
         public DbSet<ProductToSell> ProductToSell { get; set; }
         public DbSet<ProductBought> ProductBought { get; set; }
@@ -33,35 +34,75 @@ namespace MyWarsha_DataAccess.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<CarInfoProduct>()
+                .HasKey(cp => new { cp.CarInfoId, cp.ProductId });
+
+            modelBuilder.Entity<CarInfoProduct>()
+                .HasOne(cp => cp.CarInfo)
+                .WithMany(c => c.CarInfoProduct)
+                .HasForeignKey(cp => cp.CarInfoId);
+
+            modelBuilder.Entity<CarInfoProduct>()
+                .HasOne(cp => cp.Product)
+                .WithMany(p => p.CarInfoProduct)
+                .HasForeignKey(cp => cp.ProductId);
+
             modelBuilder.Entity<CarInfo>(entity =>
             {
                 entity.HasOne(ci => ci.CarMaker)
                       .WithMany()
                       .HasForeignKey(ci => ci.CarMakerId)
-                      .OnDelete(DeleteBehavior.NoAction);
+                      .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(ci => ci.CarModel)
                       .WithMany()
                       .HasForeignKey(ci => ci.CarModelId)
-                      .OnDelete(DeleteBehavior.NoAction);
+                      .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(ci => ci.CarGeneration)
                       .WithMany()
                       .HasForeignKey(ci => ci.CarGenerationId)
-                      .OnDelete(DeleteBehavior.NoAction);
+                      .OnDelete(DeleteBehavior.Restrict);
             });
 
-             modelBuilder.Entity<Service>()
-                .HasOne(s => s.Client)
+            
+
+             modelBuilder.Entity<Service>(entity => 
+             {
+                entity.HasOne(s => s.Client)
                 .WithMany()
                 .HasForeignKey(s => s.ClientId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Service>()
-                .HasOne(s => s.Car)
+                entity.HasOne(s => s.Car)
                 .WithMany()
                 .HasForeignKey(s => s.CarId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
+             });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                 entity.HasOne(p => p.Category)
+                    .WithMany()
+                    .HasForeignKey(p => p.CategoryId)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(p => p.ProductType)
+                    .WithMany()
+                    .HasForeignKey(p => p.ProductTypeId)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(p => p.ProductBrand)
+                    .WithMany()
+                    .HasForeignKey(p => p.ProductBrandId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+            
+                
+
+            
+
+               
         }
     }
 }

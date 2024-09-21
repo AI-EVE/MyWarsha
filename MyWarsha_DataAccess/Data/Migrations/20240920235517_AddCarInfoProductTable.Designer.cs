@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWarsha_DataAccess.Data;
 
@@ -11,9 +12,11 @@ using MyWarsha_DataAccess.Data;
 namespace MyWarsha_DataAccess.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240920235517_AddCarInfoProductTable")]
+    partial class AddCarInfoProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace MyWarsha_DataAccess.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CarInfoProduct", b =>
+                {
+                    b.Property<int>("CarInfosId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CarInfosId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("CarInfoProduct");
+                });
 
             modelBuilder.Entity("MyWarsha_Models.Models.Car", b =>
                 {
@@ -151,7 +169,7 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CarInfoProduct");
+                    b.ToTable("CarInfoProducts");
                 });
 
             modelBuilder.Entity("MyWarsha_Models.Models.CarMaker", b =>
@@ -512,6 +530,21 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("ServiceFee");
+                });
+
+            modelBuilder.Entity("CarInfoProduct", b =>
+                {
+                    b.HasOne("MyWarsha_Models.Models.CarInfo", null)
+                        .WithMany()
+                        .HasForeignKey("CarInfosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyWarsha_Models.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MyWarsha_Models.Models.Car", b =>

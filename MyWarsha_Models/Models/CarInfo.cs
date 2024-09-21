@@ -17,8 +17,6 @@ namespace MyWarsha_Models.Models
         [ForeignKey("CarGenerationId")]
         public CarGeneration CarGeneration { get; set; } = null!;
         public int CarGenerationId { get; set; }
-
-        public List<Product> Products { get; set; } = [];
-
+        public List<CarInfoProduct> CarInfoProduct { get; set; } = [];
     }
 }

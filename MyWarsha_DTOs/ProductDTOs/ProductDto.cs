@@ -8,6 +8,7 @@ namespace MyWarsha_DTOs.ProductDTOs
 {
     public class ProductDto
     {
+        public int Id { get; set; }
         public string Name { get; set; } = null!;
         public CategoryDto Category { get; set; } = null!;
         public ProductTypeDto ProductType { get; set; } = null!;

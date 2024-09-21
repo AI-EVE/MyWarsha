@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWarsha_DataAccess.Data;
 
@@ -11,9 +12,11 @@ using MyWarsha_DataAccess.Data;
 namespace MyWarsha_DataAccess.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240920233016_AddDeleteBehaviorRestrictions")]
+    partial class AddDeleteBehaviorRestrictions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace MyWarsha_DataAccess.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CarInfoProduct", b =>
+                {
+                    b.Property<int>("CarInfosId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CarInfosId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("CarInfoProduct");
+                });
 
             modelBuilder.Entity("MyWarsha_Models.Models.Car", b =>
                 {
@@ -137,21 +155,6 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.HasIndex("CarModelId");
 
                     b.ToTable("CarInfo");
-                });
-
-            modelBuilder.Entity("MyWarsha_Models.Models.CarInfoProduct", b =>
-                {
-                    b.Property<int>("CarInfoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CarInfoId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CarInfoProduct");
                 });
 
             modelBuilder.Entity("MyWarsha_Models.Models.CarMaker", b =>
@@ -514,6 +517,21 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.ToTable("ServiceFee");
                 });
 
+            modelBuilder.Entity("CarInfoProduct", b =>
+                {
+                    b.HasOne("MyWarsha_Models.Models.CarInfo", null)
+                        .WithMany()
+                        .HasForeignKey("CarInfosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyWarsha_Models.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MyWarsha_Models.Models.Car", b =>
                 {
                     b.HasOne("MyWarsha_Models.Models.CarInfo", "CarInfo")
@@ -580,25 +598,6 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Navigation("CarMaker");
 
                     b.Navigation("CarModel");
-                });
-
-            modelBuilder.Entity("MyWarsha_Models.Models.CarInfoProduct", b =>
-                {
-                    b.HasOne("MyWarsha_Models.Models.CarInfo", "CarInfo")
-                        .WithMany("CarInfoProduct")
-                        .HasForeignKey("CarInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MyWarsha_Models.Models.Product", "Product")
-                        .WithMany("CarInfoProduct")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CarInfo");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("MyWarsha_Models.Models.CarModel", b =>
@@ -734,11 +733,6 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Navigation("CarImages");
                 });
 
-            modelBuilder.Entity("MyWarsha_Models.Models.CarInfo", b =>
-                {
-                    b.Navigation("CarInfoProduct");
-                });
-
             modelBuilder.Entity("MyWarsha_Models.Models.CarMaker", b =>
                 {
                     b.Navigation("CarModels");
@@ -758,8 +752,6 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
             modelBuilder.Entity("MyWarsha_Models.Models.Product", b =>
                 {
-                    b.Navigation("CarInfoProduct");
-
                     b.Navigation("ProductImages");
                 });
 
