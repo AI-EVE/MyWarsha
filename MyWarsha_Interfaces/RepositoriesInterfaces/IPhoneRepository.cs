@@ -7,7 +7,6 @@ namespace MyWarsha_Interfaces.RepositoriesInterfaces
 {
     public interface IPhoneRepository : IRepository<Phone>
     {
-        Task<IEnumerable<PhoneDto>> GetAll(PaginationPropreties paginationPropreties);
         Task<IEnumerable<PhoneDto>> GetAll(Expression<Func<Phone, bool>> predicate, PaginationPropreties paginationPropreties);
         Task<PhoneDto?> Get(Expression<Func<Phone, bool>> predicate);
         Task<Phone?> GetById(int id);

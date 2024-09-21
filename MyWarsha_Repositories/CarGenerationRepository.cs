@@ -24,16 +24,19 @@ namespace MyWarsha_Repositories
         {
             return await _context.CarGeneration.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public async Task<IEnumerable<CarGeneration>> GetAll(PaginationPropreties paginationPropreties)
-        {
-            return await _context.CarGeneration.Skip(paginationPropreties.Skip())
-                .Take(paginationPropreties.PageSize).ToListAsync();
-        }
 
         public async Task<IEnumerable<CarGeneration>> GetAll(Expression<Func<CarGeneration, bool>> predicate, PaginationPropreties paginationPropreties)
         {
-            return await _context.CarGeneration.Where(predicate).Skip(paginationPropreties.Skip())
-                .Take(paginationPropreties.PageSize).ToListAsync();
+            var query = _context.CarGeneration.Where(predicate);
+
+            return await paginationPropreties.ApplyPagination(query).ToListAsync();
+        }
+
+        public async Task<IEnumerable<CarGeneration>> GetAll(PaginationPropreties paginationPropreties)
+        {
+            var query = _context.CarGeneration.AsQueryable();
+
+            return await paginationPropreties.ApplyPagination(query).ToListAsync();
         }
     }
 }

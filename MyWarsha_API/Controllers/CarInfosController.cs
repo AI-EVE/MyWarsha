@@ -20,20 +20,21 @@ namespace MyWarsha_API.Controllers
             _carInfoRepository = carInfoRepository;
         }
 
-        [HttpGet]
-        [ProducesResponseType(200)]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationPropreties paginationPropreties)
-        {
-            var carInfos = await _carInfoRepository.GetAll(paginationPropreties);
-            return Ok(carInfos);
-        }
+        // [HttpGet]
+        // [ProducesResponseType(200)]
+        // public async Task<IActionResult> GetAll([FromQuery] PaginationPropreties paginationPropreties)
+        // {
+        //     var carInfos = await _carInfoRepository.GetAll(paginationPropreties);
+        //     return Ok(carInfos);
+        // }
 
-        [HttpGet("filter")]
+        // [HttpGet("filter")]
+        [HttpGet]
         [ProducesResponseType(200)]
         public async Task<IActionResult> GetAll([FromQuery] CarInfoFilters carInfoFilters, [FromQuery] PaginationPropreties paginationPropreties)
         {
 
-            var predicate = PredicateBuilder.New<CarInfo>();
+            var predicate = PredicateBuilder.New<CarInfo>(true);
 
             if (!string.IsNullOrEmpty(carInfoFilters.CarMakerName))
             {

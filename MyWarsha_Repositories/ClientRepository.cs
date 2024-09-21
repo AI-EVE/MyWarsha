@@ -42,25 +42,33 @@ namespace MyWarsha_Repositories
             .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<ClientDtoMulti>> GetAll(PaginationPropreties paginationPropreties)
-        {
-            return await _context.Client
-            .Select(x => ClientDtoMulti.ToClientDtoMulti(x))
-            .Skip(paginationPropreties.Skip())
-            .Take(paginationPropreties.PageSize)
-            .AsNoTracking()
-            .ToListAsync();
-        }
+        // public async Task<IEnumerable<ClientDtoMulti>> GetAll(PaginationPropreties paginationPropreties)
+        // {
+        //     return await _context.Client
+        //     .Select(x => ClientDtoMulti.ToClientDtoMulti(x))
+        //     .Skip(paginationPropreties.Skip())
+        //     .Take(paginationPropreties.PageSize)
+        //     .AsNoTracking()
+        //     .ToListAsync();
+        // }
 
         public async Task<IEnumerable<ClientDtoMulti>> GetAll(Expression<Func<Client, bool>> predicate, PaginationPropreties paginationPropreties)
         {
-            return await _context.Client
-            .Where(predicate)
-            .Select(x => ClientDtoMulti.ToClientDtoMulti(x))
-            .Skip(paginationPropreties.Skip())
-            .Take(paginationPropreties.PageSize)
+            var query = _context.Client.Where(predicate)
+            .Select(x => ClientDtoMulti.ToClientDtoMulti(x));
+
+            return await paginationPropreties.ApplyPagination(query)
             .AsNoTracking()
             .ToListAsync();
+
+
+            // return await _context.Client
+            // .Where(predicate)
+            // .Select(x => ClientDtoMulti.ToClientDtoMulti(x))
+            // .Skip(paginationPropreties.Skip())
+            // .Take(paginationPropreties.PageSize)
+            // .AsNoTracking()
+            // .ToListAsync();
         }
 
         public async Task<Client?> GetById(int id)

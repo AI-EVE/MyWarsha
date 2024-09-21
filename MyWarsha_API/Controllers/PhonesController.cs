@@ -27,7 +27,7 @@ namespace MyWarsha_API.Controllers
         [ProducesResponseType(200)]
         public async Task<IActionResult> GetAll([FromQuery] PaginationPropreties paginationPropreties, [FromQuery] PhoneFilters phoneFilters)
         {
-            var predicate = PredicateBuilder.New<Phone>();
+            var predicate = PredicateBuilder.New<Phone>(true);
 
             if (!string.IsNullOrEmpty(phoneFilters.Number))
             {

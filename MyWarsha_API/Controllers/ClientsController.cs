@@ -19,19 +19,20 @@ namespace MyWarsha_API.Controllers
             _clientRepository = clientRepository;
         }
 
-        [HttpGet]
-        [ProducesResponseType(200)]
-        public async Task<IActionResult> GetAll([FromQuery] PaginationPropreties paginationPropreties)
-        {
-            var clients = await _clientRepository.GetAll(paginationPropreties);
-            return Ok(clients);
-        }
+        // [HttpGet]
+        // [ProducesResponseType(200)]
+        // public async Task<IActionResult> GetAll([FromQuery] PaginationPropreties paginationPropreties)
+        // {
+        //     var clients = await _clientRepository.GetAll(paginationPropreties);
+        //     return Ok(clients);
+        // }
 
-        [HttpGet("filter")]
+        // [HttpGet("filter")]
+        [HttpGet]
         [ProducesResponseType(200)]
         public async Task<IActionResult> GetAll([FromQuery] ClientFilters filters, [FromQuery] PaginationPropreties paginationPropreties)
         {
-            var predicate = PredicateBuilder.New<Client>();
+            var predicate = PredicateBuilder.New<Client>(true);
 
             if (!string.IsNullOrEmpty(filters.Name))
             {

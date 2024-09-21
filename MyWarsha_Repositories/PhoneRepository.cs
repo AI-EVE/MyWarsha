@@ -17,23 +17,21 @@ namespace MyWarsha_Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<PhoneDto>> GetAll(PaginationPropreties paginationPropreties)
-        {
-            return await _context.Phone.Select(x => PhoneDto.ToPhoneDto(x))
-            .Skip(paginationPropreties.Skip())
-            .Take(paginationPropreties.PageSize)
-            .AsNoTracking()
-            .ToListAsync();
-        }
-
         public async Task<IEnumerable<PhoneDto>> GetAll(Expression<Func<Phone, bool>> predicate, PaginationPropreties paginationPropreties)
         {
-            return await _context.Phone.Where(predicate)
-            .Select(x => PhoneDto.ToPhoneDto(x))
-            .Skip(paginationPropreties.Skip())
-            .Take(paginationPropreties.PageSize)
+            var query = _context.Phone.Where(predicate)
+            .Select(x => PhoneDto.ToPhoneDto(x));
+
+            return await paginationPropreties.ApplyPagination(query)
             .AsNoTracking()
             .ToListAsync();
+
+            // return await _context.Phone.Where(predicate)
+            // .Select(x => PhoneDto.ToPhoneDto(x))
+            // .Skip(paginationPropreties.Skip())
+            // .Take(paginationPropreties.PageSize)
+            // .AsNoTracking()
+            // .ToListAsync();
         }
 
         public async Task<PhoneDto?> Get(Expression<Func<Phone, bool>> predicate)

@@ -27,14 +27,22 @@ namespace MyWarsha_Repositories
 
         public async Task<IEnumerable<CarModel>> GetAll(PaginationPropreties paginationPropreties)
         {
-            return await _context.CarModel.Include(ele => ele.CarGenerations).Skip(paginationPropreties.Skip())
-                .Take(paginationPropreties.PageSize).ToListAsync();
+            var query = _context.CarModel.Include(ele => ele.CarGenerations);
+
+            return await paginationPropreties.ApplyPagination(query).ToListAsync();
+
+            // return await _context.CarModel.Include(ele => ele.CarGenerations).Skip(paginationPropreties.Skip())
+            //     .Take(paginationPropreties.PageSize).ToListAsync();
         }
 
         public async Task<IEnumerable<CarModel>> GetAll(Expression<Func<CarModel, bool>> predicate, PaginationPropreties paginationPropreties)
         {
-            return await _context.CarModel.Include(ele => ele.CarGenerations).Where(predicate).Skip(paginationPropreties.Skip())
-                .Take(paginationPropreties.PageSize).ToListAsync();
+            var query = _context.CarModel.Include(ele => ele.CarGenerations).Where(predicate);
+
+            return await paginationPropreties.ApplyPagination(query).ToListAsync();
+
+            // return await _context.CarModel.Include(ele => ele.CarGenerations).Where(predicate).Skip(paginationPropreties.Skip())
+            //     .Take(paginationPropreties.PageSize).ToListAsync();
         }
     }
 }

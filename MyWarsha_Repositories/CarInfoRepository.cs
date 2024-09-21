@@ -29,26 +29,34 @@ namespace MyWarsha_Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<CarInfoDto>> GetAll(PaginationPropreties paginationPropreties)
-        {
-            return await _context.CarInfo .Include(c => c.CarMaker)
-                .Include(c => c.CarModel)
-                .Include(c => c.CarGeneration)
-                .Select(x => CarInfoDto.ToCarInfoDto(x))
-                .Skip(paginationPropreties.Skip())
-                .Take(paginationPropreties.PageSize)
-                .ToListAsync();
-        }
+        // public async Task<IEnumerable<CarInfoDto>> GetAll(PaginationPropreties paginationPropreties)
+        // {
+        //     return await _context.CarInfo .Include(c => c.CarMaker)
+        //         .Include(c => c.CarModel)
+        //         .Include(c => c.CarGeneration)
+        //         .Select(x => CarInfoDto.ToCarInfoDto(x))
+        //         .Skip(paginationPropreties.Skip())
+        //         .Take(paginationPropreties.PageSize)
+        //         .ToListAsync();
+        // }
 
         public async Task<IEnumerable<CarInfoDto>> GetAll(PaginationPropreties paginationPropreties, Expression<Func<CarInfo, bool>> predicate)
         {
-            return await _context.CarInfo.Where(predicate) .Include(c => c.CarMaker)
+            var query = _context.CarInfo.Where(predicate)
+                .Include(c => c.CarMaker)
                 .Include(c => c.CarModel)
                 .Include(c => c.CarGeneration)
-                .Select(x => CarInfoDto.ToCarInfoDto(x))
-                .Skip(paginationPropreties.Skip())
-                .Take(paginationPropreties.PageSize)
-                .ToListAsync();
+                .Select(x => CarInfoDto.ToCarInfoDto(x));
+
+            return await paginationPropreties.ApplyPagination(query).ToListAsync();
+
+            // return await _context.CarInfo.Where(predicate) .Include(c => c.CarMaker)
+            //     .Include(c => c.CarModel)
+            //     .Include(c => c.CarGeneration)
+            //     .Select(x => CarInfoDto.ToCarInfoDto(x))
+            //     .Skip(paginationPropreties.Skip())
+            //     .Take(paginationPropreties.PageSize)
+            //     .ToListAsync();
         }
 
         public async Task<CarInfo?> GetById(int id)
