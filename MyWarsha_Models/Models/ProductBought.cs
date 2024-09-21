@@ -19,7 +19,7 @@ namespace MyWarsha_Models.Models
         public string? Note { get; set; }
 
         [NotMapped]
-        public decimal Total { get; set; }
+        public decimal TotalPrice { get; set; }
 
         [ForeignKey("ProductId")]
         public Product Product { get; set; } = null!;

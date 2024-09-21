@@ -20,6 +20,7 @@ namespace MyWarsha_API.Extensions
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductImageRepository, ProductImageRepository>();
+            services.AddScoped<IProductsRestockingBillRepository, ProductsRestockingBillRepository>();
             
             
 
