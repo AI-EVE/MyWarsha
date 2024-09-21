@@ -71,7 +71,7 @@ namespace MyWarsha_API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Create(ProductBrandCreateDto productBrandCreateDto)
+        public async Task<IActionResult> Create([FromBody] ProductBrandCreateDto productBrandCreateDto)
         {
             if (productBrandCreateDto == null)
             {
@@ -95,7 +95,7 @@ namespace MyWarsha_API.Controllers
 
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
-        public async Task<IActionResult> Update(int id, ProductBrandUpdateDto productBrandUpdateDto)
+        public async Task<IActionResult> Update(int id, [FromBody] ProductBrandUpdateDto productBrandUpdateDto)
         {
             var productBrand = await _productBrandRepository.GetById(id);
 

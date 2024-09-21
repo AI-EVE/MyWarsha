@@ -1,12 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MyWarsha_Models.Models;
 
 namespace MyWarsha_DTOs.ProductImageDTOs
 {
     public class ProductImageDto
     {
-        
+        public static ProductImageDto ToProductImageDto(ProductImage productImage)
+        {
+            return new ProductImageDto
+            {
+   
+            };
+        }        
     }
 }

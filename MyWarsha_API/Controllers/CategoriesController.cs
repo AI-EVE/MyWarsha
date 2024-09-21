@@ -67,7 +67,7 @@ namespace MyWarsha_API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Create(CategoryCreateDto categoryCreateDto)
+        public async Task<IActionResult> Create([FromBody] CategoryCreateDto categoryCreateDto)
         {
             if (categoryCreateDto == null)
             {
@@ -92,7 +92,7 @@ namespace MyWarsha_API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Update(int id, CategoryUpdateDto categoryUpdateDto)
+        public async Task<IActionResult> Update(int id, [FromBody] CategoryUpdateDto categoryUpdateDto)
         {
             var category = await _categoryRepository.GetById(id);
 

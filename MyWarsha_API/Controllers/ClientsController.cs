@@ -69,7 +69,7 @@ namespace MyWarsha_API.Controllers
 
         [HttpPost]
         [ProducesResponseType(201)]
-        public async Task<IActionResult> Create(ClientCreateDto clientCreateDto)
+        public async Task<IActionResult> Create([FromBody] ClientCreateDto clientCreateDto)
         {
             var newClient = new Client
             {
@@ -85,7 +85,7 @@ namespace MyWarsha_API.Controllers
 
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
-        public async Task<IActionResult> Update(int id, ClientUpdateDto clientUpdateDto)
+        public async Task<IActionResult> Update(int id, [FromBody] ClientUpdateDto clientUpdateDto)
         {
             var clientToUpdate = await _clientRepository.GetById(id);
 

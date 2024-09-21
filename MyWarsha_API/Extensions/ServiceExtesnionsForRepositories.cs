@@ -18,6 +18,8 @@ namespace MyWarsha_API.Extensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductBrandRepository, ProductBrandRepository>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            
             
 
             return services;

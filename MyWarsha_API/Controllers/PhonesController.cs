@@ -62,7 +62,7 @@ namespace MyWarsha_API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Create(PhoneCreateDto phoneCreateDto)
+        public async Task<IActionResult> Create([FromBody] PhoneCreateDto phoneCreateDto)
         {
             var phone = new Phone
             {
@@ -85,7 +85,7 @@ namespace MyWarsha_API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Update(int id, PhoneUpdateDto phoneUpdateDto)
+        public async Task<IActionResult> Update(int id, [FromBody] PhoneUpdateDto phoneUpdateDto)
         {
             var phone = await _phoneRepository.GetById(id);
 

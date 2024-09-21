@@ -72,7 +72,7 @@ namespace MyWarsha_API.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
 
-        public async Task<IActionResult> Create(CarInfoCreateDto carInfoCreateDto)
+        public async Task<IActionResult> Create([FromBody] CarInfoCreateDto carInfoCreateDto)
         {
             var carInfo = new CarInfo
             {
@@ -90,7 +90,7 @@ namespace MyWarsha_API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Update(int id, CarInfoUpdateDto carInfoUpdateDto)
+        public async Task<IActionResult> Update(int id, [FromBody] CarInfoUpdateDto carInfoUpdateDto)
         {
             var carInfo = await _carInfoRepository.GetById(id);
 

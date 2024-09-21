@@ -1,4 +1,5 @@
 using MyWarsha_DTOs.ProductImageDTOs;
+using MyWarsha_Models.Models;
 
 namespace MyWarsha_DTOs.ProductDTOs
 {
@@ -11,6 +12,21 @@ namespace MyWarsha_DTOs.ProductDTOs
         public decimal ListPrice { get; set; }
         public decimal SalePrice { get; set; }
         public int Stock { get; set; }
-        public ProductImageDto MainProductImage { get; set; } = null!;
+        public ProductImageDto? MainProductImage { get; set; }
+
+        public static ProductDtoMulti ToProductDtoMulti(Product product)
+        {
+            return new ProductDtoMulti
+            {
+                Id = product.Id,
+                Name = product.Name,
+                DateAdded = product.DateAdded,
+                Description = product.Description,
+                ListPrice = product.ListPrice,
+                SalePrice = product.SalePrice,
+                Stock = product.Stock,
+                MainProductImage = product.ProductImages.Count > 0 ? product.ProductImages.Where(pi => pi.IsMain).Select(pi => ProductImageDto.ToProductImageDto(pi)).FirstOrDefault() : null
+            };
+        }
     }
 }

@@ -67,7 +67,7 @@ namespace MyWarsha_API.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Create(ProductTypeCreateDto productTypeCreateDto)
+        public async Task<IActionResult> Create([FromBody] ProductTypeCreateDto productTypeCreateDto)
         {
             if (productTypeCreateDto == null)
             {
@@ -91,7 +91,7 @@ namespace MyWarsha_API.Controllers
 
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
-        public async Task<IActionResult> Update(int id, ProductTypeUpdateDto productTypeUpdateDto)
+        public async Task<IActionResult> Update(int id, [FromBody] ProductTypeUpdateDto productTypeUpdateDto)
         {
             var productType = await _productTypeRepository.GetById(id);
 
