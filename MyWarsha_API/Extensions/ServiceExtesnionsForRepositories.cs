@@ -19,6 +19,7 @@ namespace MyWarsha_API.Extensions
             services.AddScoped<IProductBrandRepository, ProductBrandRepository>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductImageRepository, ProductImageRepository>();
             
             
 

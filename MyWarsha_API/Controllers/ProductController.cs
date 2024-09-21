@@ -1,9 +1,6 @@
 using LinqKit;
 using Microsoft.AspNetCore.Mvc;
-using MyWarsha_DTOs.CategoryDTOs;
-using MyWarsha_DTOs.ProductBrandDTOs;
 using MyWarsha_DTOs.ProductDTOs;
-using MyWarsha_DTOs.ProductTypeDTOs;
 using MyWarsha_Interfaces.RepositoriesInterfaces;
 using MyWarsha_Models.Models;
 using Utils.FilteringUtils.ProductFilters;

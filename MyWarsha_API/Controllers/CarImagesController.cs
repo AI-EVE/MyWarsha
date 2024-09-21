@@ -61,8 +61,19 @@ namespace MyWarsha_API.Controllers
             var carImage = new CarImage
             {
                 CarId = carImageCreateDto.CarId,
-                IsMain = false
+                IsMain = carImageCreateDto.IsMain
             };
+
+            if (carImage.IsMain)
+            {
+                var mainImage = await _carImageRepository.GetMainImageEntity(carImage.CarId);
+
+                if (mainImage != null)
+                {
+                    mainImage.IsMain = false;
+                    _carImageRepository.Update(mainImage);
+                }
+            }
 
             string? imgPath = await _uploadImageService.UploadImage(carImageCreateDto.Image);
 
