@@ -45,6 +45,11 @@ namespace MyWarsha_API.Controllers
                 predicate = predicate.And(p => p.ProductBrandId == filters.ProductBrandId);
             }
 
+            if (filters.IsAvailable.HasValue)
+            {
+                predicate = predicate.And(p => p.IsAvailable == filters.IsAvailable);
+            }
+
             var products = await _productRepository.GetAll(paginationPropreties, predicate);
 
             return Ok(products);
@@ -84,7 +89,8 @@ namespace MyWarsha_API.Controllers
                 ProductTypeId = productCreateDto.ProductTypeId,
                 ProductBrandId = productCreateDto.ProductBrandId,
                 SalePrice = productCreateDto.SalePrice,
-                Stock = productCreateDto.Stock
+                Stock = productCreateDto.Stock,
+                IsAvailable = productCreateDto.IsAvailable
             };
 
             await _productRepository.Add(product);
@@ -111,6 +117,7 @@ namespace MyWarsha_API.Controllers
             product.ListPrice = productUpdateDto.ListPrice ?? product.ListPrice;
             product.SalePrice = productUpdateDto.SalePrice ?? product.SalePrice;
             product.Stock = productUpdateDto.Stock ?? product.Stock;
+            product.IsAvailable = productUpdateDto.IsAvailable ?? product.IsAvailable;
 
             _productRepository.Update(product);
             await _productRepository.SaveChanges();
@@ -160,6 +167,11 @@ namespace MyWarsha_API.Controllers
             if (filters.ProductBrandId.HasValue)
             {
                 predicate = predicate.And(p => p.ProductBrandId == filters.ProductBrandId);
+            }
+
+            if (filters.IsAvailable.HasValue)
+            {
+                predicate = predicate.And(p => p.IsAvailable == filters.IsAvailable);
             }
 
             var count = await _productRepository.Count(predicate);

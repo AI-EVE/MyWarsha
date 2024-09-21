@@ -29,6 +29,7 @@ namespace MyWarsha_Models.Models
         [Required]
         public decimal SalePrice { get; set; }
         public int Stock { get; set; }
+        public bool IsAvailable { get; set; }
         public List<CarInfoProduct> CarInfoProduct { get; set; } = [];
         public List<ProductImage> ProductImages { get; set; } = [];
     }

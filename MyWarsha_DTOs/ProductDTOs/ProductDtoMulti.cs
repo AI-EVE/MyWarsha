@@ -12,6 +12,7 @@ namespace MyWarsha_DTOs.ProductDTOs
         public decimal ListPrice { get; set; }
         public decimal SalePrice { get; set; }
         public int Stock { get; set; }
+        public bool IsAvailable { get; set; }
         public ProductImageDto? MainProductImage { get; set; }
 
         public static ProductDtoMulti ToProductDtoMulti(Product product)
@@ -25,6 +26,7 @@ namespace MyWarsha_DTOs.ProductDTOs
                 ListPrice = product.ListPrice,
                 SalePrice = product.SalePrice,
                 Stock = product.Stock,
+                IsAvailable = product.IsAvailable,
                 MainProductImage = product.ProductImages.Count > 0 ? product.ProductImages.Where(pi => pi.IsMain).Select(pi => ProductImageDto.ToProductImageDto(pi)).FirstOrDefault() : null
             };
         }

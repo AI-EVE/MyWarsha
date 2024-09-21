@@ -6,5 +6,6 @@ namespace Utils.FilteringUtils.ProductFilters
         public int? CategoryId { get; set; }
         public int? ProductTypeId { get; set; }
         public int? ProductBrandId { get; set; }
+        public bool? IsAvailable { get; set; }
     }
 }

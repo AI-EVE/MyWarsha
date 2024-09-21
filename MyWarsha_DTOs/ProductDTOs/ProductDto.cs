@@ -19,6 +19,7 @@ namespace MyWarsha_DTOs.ProductDTOs
         public decimal ListPrice { get; set; }
         public decimal SalePrice { get; set; }
         public int Stock { get; set; }
+        public bool IsAvailable { get; set; }
         public List<CarInfoDto> CarInfos { get; set; } = [];
         public List<ProductImageDto> ProductImages { get; set; } = [];
 
@@ -36,6 +37,7 @@ namespace MyWarsha_DTOs.ProductDTOs
                 ListPrice = product.ListPrice,
                 SalePrice = product.SalePrice,
                 Stock = product.Stock,
+                IsAvailable = product.IsAvailable,
                 CarInfos = product.CarInfoProduct.Select(cip => CarInfoDto.ToCarInfoDto(cip.CarInfo)).ToList(),
                 ProductImages = product.ProductImages.Select(pi => ProductImageDto.ToProductImageDto(pi)).ToList()
             };
