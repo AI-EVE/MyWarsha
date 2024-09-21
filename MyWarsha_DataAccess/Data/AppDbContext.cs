@@ -25,7 +25,7 @@ namespace MyWarsha_DataAccess.Data
         public DbSet<ProductImage> ProductImage { get; set; }
         public DbSet<ProductToSell> ProductToSell { get; set; }
         public DbSet<ProductBought> ProductBought { get; set; }
-        public DbSet<RelevantDataToTheBought> RelevantDataToTheBought { get; set; }
+        public DbSet<ProductsRestockingBill> ProductsRestockingBill { get; set; }
         public DbSet<ServiceFee> ServiceFee { get; set; }
         public DbSet<Service> Service { get; set; }
         public IEnumerable<object> CarImages { get; set; }

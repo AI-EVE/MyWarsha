@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyWarsha_Models.Models
 {
-    public class RelevantDataToTheBought
+    public class ProductsRestockingBill
     {
         public int Id { get; set; }
 
