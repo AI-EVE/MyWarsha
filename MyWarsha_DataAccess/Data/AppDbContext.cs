@@ -30,7 +30,6 @@ namespace MyWarsha_DataAccess.Data
         public DbSet<ServiceFee> ServiceFee { get; set; }
         public DbSet<Service> Service { get; set; }
         public DbSet<ServiceStatus> ServiceStatus { get; set; }
-        public IEnumerable<object> CarImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -96,18 +95,35 @@ namespace MyWarsha_DataAccess.Data
                  entity.HasOne(p => p.Category)
                     .WithMany()
                     .HasForeignKey(p => p.CategoryId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(p => p.ProductType)
                     .WithMany()
                     .HasForeignKey(p => p.ProductTypeId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(p => p.ProductBrand)
                     .WithMany()
                     .HasForeignKey(p => p.ProductBrandId)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Restrict);
             });
+
+            
+
+            modelBuilder.Entity<ProductBought>(entity =>
+            {
+                entity.HasOne(pb => pb.ProductsRestockingBill)
+                    .WithMany()
+                    .HasForeignKey(pb => pb.ProductsRestockingBillId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(pb => pb.Product)
+                    .WithMany()
+                    .HasForeignKey(pb => pb.ProductId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+          
             
             modelBuilder.Entity<ProductBought>()
             .HasOne(pb => pb.ProductsRestockingBill)
