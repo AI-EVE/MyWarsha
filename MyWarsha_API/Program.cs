@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyWarsha_API.Extensions;
 using MyWarsha_DataAccess.Data;
+using MyWarsha_DataAccess.Data.AdminDataSeed;
 using MyWarsha_Interfaces.ServicesInterfaces;
 using MyWarsha_Interfaces.ServicesInterfaces.AzureServicesInterfaces;
 using MyWarsha_Models.Models;
@@ -26,6 +27,12 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
+
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
+
 
 builder.Services.AddControllers(config =>
         {
@@ -99,7 +106,7 @@ builder.Services.AddScoped<IDeleteImageService, DeleteImageService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction() || app.Environment.IsStaging())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -108,7 +115,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
-
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    AdminDataSeed.Initialize(services, userManager).Wait();
+}
 
 app.UseAuthentication();
 app.UseAuthorization();

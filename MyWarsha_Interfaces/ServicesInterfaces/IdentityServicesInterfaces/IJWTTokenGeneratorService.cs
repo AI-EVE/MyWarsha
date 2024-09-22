@@ -4,6 +4,6 @@ namespace MyWarsha_Interfaces.ServicesInterfaces.IdentityServicesInterfaces
 {
     public interface IJWTTokenGeneratorService
     {
-        string GenerateJwtToken(AppUser user);
+        Task<string> GenerateJwtTokenAsync(AppUser user);
     }
 }

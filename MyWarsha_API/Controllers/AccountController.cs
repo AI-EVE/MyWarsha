@@ -44,7 +44,7 @@ public class AccountController : ControllerBase
         if (result.Succeeded)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
-            var token = _jwtTokenGeneratorService.GenerateJwtToken(user);
+            var token = await _jwtTokenGeneratorService.GenerateJwtTokenAsync(user);
             return Ok(new { Token = token });
         }
 
