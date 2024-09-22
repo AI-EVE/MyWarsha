@@ -35,21 +35,7 @@ namespace MyWarsha_Repositories
                 .FirstOrDefaultAsync();
         }
 
-        // public async Task<IEnumerable<CarDto>> GetAll(PaginationPropreties paginationPropreties)
-        // {
-        //     return await _context.Car.Include(c => c.CarInfo)
-        //         .ThenInclude(carInfo => carInfo.CarMaker)
-        //         .Include(c => c.CarInfo)
-        //         .ThenInclude(carInfo => carInfo.CarModel)
-        //         .Include(c => c.CarInfo)
-        //         .ThenInclude(carInfo => carInfo.CarGeneration)
-        //         .Include(c => c.CarImages)
-        //         .Select(x => CarDto.ToCarDto(x))
-        //         .Skip(paginationPropreties.Skip())
-        //         .Take(paginationPropreties.PageSize)
-        //         .AsNoTracking()
-        //         .ToListAsync();
-        // }
+       
 
         public async Task<IEnumerable<CarDto>> GetAll(Expression<Func<Car, bool>> predicate, PaginationPropreties paginationPropreties)
         {
@@ -64,19 +50,6 @@ namespace MyWarsha_Repositories
                 .Select(x => CarDto.ToCarDto(x));
 
             return await paginationPropreties.ApplyPagination(query).ToListAsync();
-
-            // return await _context.Car.Where(predicate).Include(c => c.CarInfo)
-            //     .ThenInclude(carInfo => carInfo.CarMaker)
-            //     .Include(c => c.CarInfo)
-            //     .ThenInclude(carInfo => carInfo.CarModel)
-            //     .Include(c => c.CarInfo)
-            //     .ThenInclude(carInfo => carInfo.CarGeneration)
-            //     .Include(c => c.CarImages)
-            //     .Select(x => CarDto.ToCarDto(x))
-            //     .Skip(paginationPropreties.Skip())
-            //     .Take(paginationPropreties.PageSize)
-            //     .AsNoTracking()
-            //     .ToListAsync();
         }
 
         public Task<Car?> GetById(int id)

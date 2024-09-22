@@ -98,7 +98,11 @@ namespace MyWarsha_DataAccess.Data
                     .OnDelete(DeleteBehavior.NoAction);
             });
             
-                
+            modelBuilder.Entity<ProductBought>()
+            .HasOne(pb => pb.ProductsRestockingBill)
+            .WithMany(prb => prb.ProductsBought)
+            .HasForeignKey(pb => pb.ProductsRestockingBillId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             
 

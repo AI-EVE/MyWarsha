@@ -20,17 +20,19 @@ namespace MyWarsha_Repositories
         public async Task<ProductsRestockingBillDto?> Get(Expression<Func<ProductsRestockingBill, bool>> predicate)
         {
             return await _context.ProductsRestockingBill
+                .Include(x => x.ProductsBought)
                 .Where(predicate)
                 .Select(x => ProductsRestockingBillDto.ToProductsRestockingBillDto(x))
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<ProductsRestockingBillDtoMulti>> GetAll(PaginationPropreties paginationPropreties, Expression<Func<ProductsRestockingBill, bool>> predicate)
+        public async Task<IEnumerable<ProductsRestockingBillDto>> GetAll(PaginationPropreties paginationPropreties, Expression<Func<ProductsRestockingBill, bool>> predicate)
         {
             var query = _context.ProductsRestockingBill
+                .Include(x => x.ProductsBought)
                 .Where(predicate)
-                .Select(x => ProductsRestockingBillDtoMulti.ToProductsRestockingBillDtoMulti(x));
+                .Select(x => ProductsRestockingBillDto.ToProductsRestockingBillDto(x));
 
             return await paginationPropreties.ApplyPagination(query)
                 .AsNoTracking()

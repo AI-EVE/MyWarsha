@@ -7,7 +7,7 @@ namespace MyWarsha_Interfaces.RepositoriesInterfaces
 {
     public interface IProductsRestockingBillRepository : IRepository<ProductsRestockingBill>
     {
-        Task<IEnumerable<ProductsRestockingBillDtoMulti>> GetAll(PaginationPropreties paginationPropreties, Expression<Func<ProductsRestockingBill, bool>> predicate);
+        Task<IEnumerable<ProductsRestockingBillDto>> GetAll(PaginationPropreties paginationPropreties, Expression<Func<ProductsRestockingBill, bool>> predicate);
 
         Task<ProductsRestockingBillDto?> Get(Expression<Func<ProductsRestockingBill, bool>> predicate);
         Task<ProductsRestockingBill?> GetById(int id);
