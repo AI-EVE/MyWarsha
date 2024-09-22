@@ -1,5 +1,7 @@
 using MyWarsha_Interfaces.RepositoriesInterfaces;
+using MyWarsha_Interfaces.ServicesInterfaces.IdentityServicesInterfaces;
 using MyWarsha_Repositories;
+using MyWarsha_Services.IdentityServices;
 
 namespace MyWarsha_API.Extensions
 {
@@ -26,6 +28,7 @@ namespace MyWarsha_API.Extensions
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IServiceFeeRepository, ServiceFeeRepository>();
             services.AddScoped<IServiceStatusRepository, ServiceStatusRepository>();
+            services.AddScoped<IJWTTokenGeneratorService, JWTTokenGeneratorService>();
 
             return services;
         }
