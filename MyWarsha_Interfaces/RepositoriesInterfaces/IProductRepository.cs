@@ -12,5 +12,6 @@ namespace MyWarsha_Interfaces.RepositoriesInterfaces
         Task<IEnumerable<ProductDtoMulti>> GetAll(PaginationPropreties paginationPropreties, Expression<Func<Product, bool>> predicate);
         Task<Product?> GetById(int id);
         Task<int> Count(Expression<Func<Product, bool>> predicate);
+        Task<int> Stock(int id);
     }
 }

@@ -21,12 +21,12 @@ namespace MyWarsha_Repositories
         public async Task<ProductDto?> Get(Expression<Func<Product, bool>> predicate)
         {
             return await _context.Product
+                .Where(predicate)
                 .Include(p => p.Category)
                 .Include(p => p.ProductType)
                 .Include(p => p.ProductBrand)
                 .Include(p => p.ProductImages)
                 .Include(p => p.CarInfoProduct)
-                .Where(predicate)
                 .Select(p => ProductDto.ToProductDto(p))
                 .FirstOrDefaultAsync();
         }
@@ -34,8 +34,8 @@ namespace MyWarsha_Repositories
         public async Task<IEnumerable<ProductDtoMulti>> GetAll(PaginationPropreties paginationPropreties, Expression<Func<Product, bool>> predicate)
         {
             var query = _context.Product
-                .Include(p => p.ProductImages)
                 .Where(predicate)
+                .Include(p => p.ProductImages)
                 .Select(p => ProductDtoMulti.ToProductDtoMulti(p));
             
             return await paginationPropreties.ApplyPagination(query).ToListAsync();
@@ -51,6 +51,29 @@ namespace MyWarsha_Repositories
         public async Task<int> Count(Expression<Func<Product, bool>> predicate)
         {
             return await _context.Product.CountAsync(predicate);
+        }
+
+        public async Task<int> Stock(int id)
+        {
+            var product = await _context.Product
+                .Where(p => p.Id == id)
+                .Include(p => p.ProductsToSell)
+                .Include(pb => pb.ProductsBought)
+                .FirstOrDefaultAsync();
+
+            var productsToSell = product != null ? product.ProductsToSell.Sum(p => p.Count) : 0;
+
+            var productsBought = product != null ? product.ProductsBought.Sum(p => p.Count) : 0;
+
+            var stock = productsBought - productsToSell;
+
+            if (stock < 0)
+            {
+                stock = 0;
+            }
+            
+            return stock;
+
         }
     }
 }

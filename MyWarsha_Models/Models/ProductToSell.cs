@@ -7,10 +7,15 @@ namespace MyWarsha_Models.Models
     {
         public int Id { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
+        [Range(0, int.MaxValue)]
         [Required]
-        public decimal SoldFor { get; set; }
+        public decimal PricePerUnit { get; set; }
+        [Range(0, int.MaxValue)]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Discount { get; set; }
+
+        [Range(1, int.MaxValue)]
+        [Required]
         public int Count { get; set; }
         public bool IsReturned { get; set; } = false;
         

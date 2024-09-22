@@ -1,14 +1,7 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using MyWarsha_DataAccess.Data;
-using MyWarsha_DTOs.CarDTOs;
-using MyWarsha_DTOs.CarGenerationDtos;
-using MyWarsha_DTOs.CarImageDTOs;
-using MyWarsha_DTOs.CarInfoDTOs;
-using MyWarsha_DTOs.CarMakerDtos;
-using MyWarsha_DTOs.CarModelDTOs;
 using MyWarsha_DTOs.ClientDTOs;
-using MyWarsha_DTOs.PhoneDTOs;
 using MyWarsha_Interfaces.RepositoriesInterfaces;
 using MyWarsha_Models.Models;
 using Utils.PageUtils;
@@ -42,16 +35,6 @@ namespace MyWarsha_Repositories
             .FirstOrDefaultAsync();
         }
 
-        // public async Task<IEnumerable<ClientDtoMulti>> GetAll(PaginationPropreties paginationPropreties)
-        // {
-        //     return await _context.Client
-        //     .Select(x => ClientDtoMulti.ToClientDtoMulti(x))
-        //     .Skip(paginationPropreties.Skip())
-        //     .Take(paginationPropreties.PageSize)
-        //     .AsNoTracking()
-        //     .ToListAsync();
-        // }
-
         public async Task<IEnumerable<ClientDtoMulti>> GetAll(Expression<Func<Client, bool>> predicate, PaginationPropreties paginationPropreties)
         {
             var query = _context.Client.Where(predicate)
@@ -60,20 +43,27 @@ namespace MyWarsha_Repositories
             return await paginationPropreties.ApplyPagination(query)
             .AsNoTracking()
             .ToListAsync();
-
-
-            // return await _context.Client
-            // .Where(predicate)
-            // .Select(x => ClientDtoMulti.ToClientDtoMulti(x))
-            // .Skip(paginationPropreties.Skip())
-            // .Take(paginationPropreties.PageSize)
-            // .AsNoTracking()
-            // .ToListAsync();
         }
 
         public async Task<Client?> GetById(int id)
         {
             return await _context.Client.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> HasCar(int clientId, int carId)
+        {
+            return await _context.Client
+            .Where(c => c.Id == clientId)
+            .Include(c => c.Cars)
+            .AnyAsync(c => c.Id == carId);
+        }
+
+        public async Task<bool> HasPhone(int clientId, int phoneId)
+        {
+            return await _context.Client
+            .Where(c => c.Id == clientId)
+            .Include(c => c.Phones)
+            .AnyAsync(c => c.Id == phoneId);
         }
     }
 }

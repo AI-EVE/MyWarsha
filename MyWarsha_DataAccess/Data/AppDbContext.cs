@@ -28,24 +28,34 @@ namespace MyWarsha_DataAccess.Data
         public DbSet<ProductsRestockingBill> ProductsRestockingBill { get; set; }
         public DbSet<ServiceFee> ServiceFee { get; set; }
         public DbSet<Service> Service { get; set; }
+        public DbSet<ServiceStatus> ServiceStatus { get; set; }
         public IEnumerable<object> CarImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<CarInfoProduct>()
-                .HasKey(cp => new { cp.CarInfoId, cp.ProductId });
+            modelBuilder.Entity<ServiceStatus>().HasData(
+                new ServiceStatus { Id = 1, Name = "Pending" },
+                new ServiceStatus { Id = 2, Name = "InProgress" },
+                new ServiceStatus { Id = 3, Name = "Done" },
+                new ServiceStatus { Id = 4, Name = "Canceled" }
+            );
 
-            modelBuilder.Entity<CarInfoProduct>()
-                .HasOne(cp => cp.CarInfo)
-                .WithMany(c => c.CarInfoProduct)
-                .HasForeignKey(cp => cp.CarInfoId);
 
-            modelBuilder.Entity<CarInfoProduct>()
-                .HasOne(cp => cp.Product)
-                .WithMany(p => p.CarInfoProduct)
-                .HasForeignKey(cp => cp.ProductId);
+            modelBuilder.Entity<CarInfoProduct>(entity =>
+            {
+                entity.HasKey(cp => new { cp.CarInfoId, cp.ProductId });
+
+                entity.HasOne(cp => cp.CarInfo)
+                      .WithMany(c => c.CarInfoProduct)
+                      .HasForeignKey(cp => cp.CarInfoId);
+
+                entity.HasOne(cp => cp.Product)
+                      .WithMany(p => p.CarInfoProduct)
+                      .HasForeignKey(cp => cp.ProductId);
+            });
+
 
             modelBuilder.Entity<CarInfo>(entity =>
             {
@@ -102,6 +112,12 @@ namespace MyWarsha_DataAccess.Data
             .HasOne(pb => pb.ProductsRestockingBill)
             .WithMany(prb => prb.ProductsBought)
             .HasForeignKey(pb => pb.ProductsRestockingBillId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ProductBought>()
+            .HasOne(pb => pb.Product)
+            .WithMany(p => p.ProductsBought)
+            .HasForeignKey(pb => pb.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
 
             

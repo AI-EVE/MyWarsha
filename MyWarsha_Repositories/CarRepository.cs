@@ -2,11 +2,6 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using MyWarsha_DataAccess.Data;
 using MyWarsha_DTOs.CarDTOs;
-using MyWarsha_DTOs.CarGenerationDtos;
-using MyWarsha_DTOs.CarImageDTOs;
-using MyWarsha_DTOs.CarInfoDTOs;
-using MyWarsha_DTOs.CarMakerDtos;
-using MyWarsha_DTOs.CarModelDTOs;
 using MyWarsha_Interfaces.RepositoriesInterfaces;
 using MyWarsha_Models.Models;
 using Utils.PageUtils;
@@ -55,6 +50,13 @@ namespace MyWarsha_Repositories
         public Task<Car?> GetById(int id)
         {
             return _context.Car.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<bool> HasClient(int carId, int clientId)
+        {
+            Car? car = await _context.Car.FirstOrDefaultAsync(c => c.Id == carId && c.ClientId == clientId);
+
+            return car != null;
         }
     }
 }

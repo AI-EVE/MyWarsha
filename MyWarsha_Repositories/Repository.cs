@@ -1,8 +1,6 @@
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using MyWarsha_DataAccess.Data;
 using MyWarsha_Interfaces.RepositoriesInterfaces;
-using Utils.PageUtils;
 
 namespace MyWarsha_Repositories
 {
@@ -20,6 +18,11 @@ namespace MyWarsha_Repositories
         {
             await _dbSet.AddAsync(entity);
             Console.WriteLine("Added");
+        }
+
+        public async Task AddRange(IEnumerable<T> entities)
+        {
+            await _dbSet.AddRangeAsync(entities);
         }
 
         public int Count()

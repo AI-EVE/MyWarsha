@@ -6,6 +6,7 @@ namespace MyWarsha_DTOs.ProductDTOs
     public class ProductDtoMulti
     {
         public int Id { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; } = null!;
         public DateOnly DateAdded { get; set; }
         public string? Description { get; set; }
@@ -20,6 +21,7 @@ namespace MyWarsha_DTOs.ProductDTOs
             return new ProductDtoMulti
             {
                 Id = product.Id,
+                CategoryId = product.CategoryId,
                 Name = product.Name,
                 DateAdded = product.DateAdded,
                 Description = product.Description,

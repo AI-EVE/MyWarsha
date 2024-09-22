@@ -25,6 +25,11 @@ namespace MyWarsha_DTOs.ProductDTOs
 
         public static ProductDto ToProductDto(Product product)
         {
+            if (product == null)
+            {
+                return null!;
+            }
+
             return new ProductDto
             {
                 Id = product.Id,

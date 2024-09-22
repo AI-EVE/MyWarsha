@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWarsha_DataAccess.Data;
 
@@ -11,9 +12,11 @@ using MyWarsha_DataAccess.Data;
 namespace MyWarsha_DataAccess.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240922045246_SeedServiceStatusTable")]
+    partial class SeedServiceStatusTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -414,14 +417,14 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("PricePerUnit")
-                        .HasColumnType("decimal(18, 2)");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("SoldFor")
+                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
 
@@ -489,7 +492,7 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ServiceStatusId")
+                    b.Property<int?>("ServiceStatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -511,14 +514,12 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18, 2)");
-
-                    b.Property<bool>("IsReturned")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -530,8 +531,6 @@ namespace MyWarsha_DataAccess.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("ServiceId");
 
@@ -781,9 +780,7 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
                     b.HasOne("MyWarsha_Models.Models.ServiceStatus", "Status")
                         .WithMany()
-                        .HasForeignKey("ServiceStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServiceStatusId");
 
                     b.Navigation("Car");
 
@@ -794,19 +791,11 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
             modelBuilder.Entity("MyWarsha_Models.Models.ServiceFee", b =>
                 {
-                    b.HasOne("MyWarsha_Models.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MyWarsha_Models.Models.Service", "Service")
                         .WithMany("ServiceFees")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("Service");
                 });

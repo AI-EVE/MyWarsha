@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWarsha_DataAccess.Data;
 
@@ -11,9 +12,11 @@ using MyWarsha_DataAccess.Data;
 namespace MyWarsha_DataAccess.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240922030004_AddProductBoughtProductRelationship")]
+    partial class AddProductBoughtProductRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -414,14 +417,14 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("PricePerUnit")
-                        .HasColumnType("decimal(18, 2)");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("SoldFor")
+                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
 
@@ -486,19 +489,11 @@ namespace MyWarsha_DataAccess.Data.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ServiceStatusId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
                     b.HasIndex("ClientId");
-
-                    b.HasIndex("ServiceStatusId");
 
                     b.ToTable("Service");
                 });
@@ -511,14 +506,12 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("decimal(18, 2)");
-
-                    b.Property<bool>("IsReturned")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -531,53 +524,9 @@ namespace MyWarsha_DataAccess.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("ServiceId");
 
                     b.ToTable("ServiceFee");
-                });
-
-            modelBuilder.Entity("MyWarsha_Models.Models.ServiceStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ServiceStatus");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Pending"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "InProgress"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Done"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Canceled"
-                        });
                 });
 
             modelBuilder.Entity("MyWarsha_Models.Models.Car", b =>
@@ -779,34 +728,18 @@ namespace MyWarsha_DataAccess.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("MyWarsha_Models.Models.ServiceStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("ServiceStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Car");
 
                     b.Navigation("Client");
-
-                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("MyWarsha_Models.Models.ServiceFee", b =>
                 {
-                    b.HasOne("MyWarsha_Models.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MyWarsha_Models.Models.Service", "Service")
                         .WithMany("ServiceFees")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("Service");
                 });

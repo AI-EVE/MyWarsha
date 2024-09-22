@@ -16,6 +16,12 @@ namespace MyWarsha_Models.Models
         public Car Car { get; set; } = null!;
         public int CarId { get; set; }
 
+        [ForeignKey("ServiceStatusId")]
+        public ServiceStatus Status { get; set; } = null!;
+        public int ServiceStatusId { get; set; } = 1;
+
+        public string? Note { get; set; }
+
         public List<ProductToSell> ProductsToSell { get; set; } = [];
 
         public List<ServiceFee> ServiceFees { get; set; } = [];

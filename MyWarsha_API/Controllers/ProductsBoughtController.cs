@@ -72,6 +72,27 @@ namespace MyWarsha_API.Controllers
             });
         }
 
+        [HttpPost("bulk")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> CreateBulk([FromBody] IEnumerable<ProductBoughtCreateDto> productsBoughtDto)
+        {
+            var productsBought = productsBoughtDto.Select(x => new ProductBought
+            {
+                PricePerUnit = x.PricePerUnit,
+                Discount = x.Discount,
+                Count = x.Count,
+                Note = x.Note,
+                ProductId = x.ProductId,
+                ProductsRestockingBillId = x.ProductsRestockingBillId
+            });
+
+            await _productBoughtRepository.AddRange(productsBought);
+            await _productBoughtRepository.SaveChanges();
+
+            return CreatedAtAction(nameof(GetAll), new { }, productsBought);
+        }
+
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -88,8 +109,26 @@ namespace MyWarsha_API.Controllers
             productBought.Discount = productBoughtDto.Discount ?? productBought.Discount;
             productBought.Note = productBoughtDto.Note ?? productBought.Note;
             productBought.IsReturned = productBoughtDto.IsReturned ?? productBought.IsReturned;
+            productBought.Count = productBoughtDto.Count ?? productBought.Count;
 
             _productBoughtRepository.Update(productBought);
+            await _productBoughtRepository.SaveChanges();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var productBought = await _productBoughtRepository.GetById(id);
+            if (productBought == null)
+            {
+                return NotFound();
+            }
+
+            _productBoughtRepository.Delete(productBought);
             await _productBoughtRepository.SaveChanges();
 
             return NoContent();

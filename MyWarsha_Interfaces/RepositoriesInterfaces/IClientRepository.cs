@@ -9,7 +9,9 @@ namespace MyWarsha_Interfaces.RepositoriesInterfaces
     {
         Task<Client?> GetById(int id);
         Task<ClientDto?> Get(Expression<Func<Client, bool>> predicate);
-        // Task<IEnumerable<ClientDtoMulti>> GetAll(PaginationPropreties paginationPropreties);
         Task<IEnumerable<ClientDtoMulti>> GetAll(Expression<Func<Client, bool>> predicate, PaginationPropreties paginationPropreties);
+        Task<bool> HasCar(int clientId, int carId);
+        Task<bool> HasPhone(int clientId, int phoneId);
+
     }
 }

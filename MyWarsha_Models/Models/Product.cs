@@ -32,5 +32,7 @@ namespace MyWarsha_Models.Models
         public bool IsAvailable { get; set; }
         public List<CarInfoProduct> CarInfoProduct { get; set; } = [];
         public List<ProductImage> ProductImages { get; set; } = [];
+        public List<ProductToSell> ProductsToSell { get; set; } = [];
+        public List<ProductBought> ProductsBought { get; set; } = [];
     }
 }

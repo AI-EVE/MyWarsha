@@ -16,15 +16,18 @@ namespace Utils.FilteringUtils.ProductsRestockingBillFilters
 
             var IsDateOfOrderFromValid = DateOnly.TryParse(DateOfOrderFrom, out DateOnly dateOfOrderFrom);
             var IsDateOfOrderToValid = DateOnly.TryParse(DateOfOrderTo, out DateOnly dateOfOrderTo);
-            
-            return productsRestockingBill =>
+            var dateToLargerThanDateFrom = dateOfOrderTo >= dateOfOrderFrom;
+
+                return productsRestockingBill =>
                 (ShopName == null || productsRestockingBill.ShopName.Contains(ShopName)) &&
                 (!IsDateOfOrderFromValid || productsRestockingBill.DateOfOrder >= dateOfOrderFrom) &&
                 (!IsDateOfOrderToValid || productsRestockingBill.DateOfOrder <= dateOfOrderTo) &&
+                (!IsDateOfOrderFromValid || !IsDateOfOrderToValid || dateToLargerThanDateFrom) &&
                 (MinTotalPrice > MaxTotalPrice || (MinTotalPrice == null || productsRestockingBill.ProductsBought.Select(x => (x.PricePerUnit * x.Count
                 ) - x.Discount).Sum() >= MinTotalPrice) &&
                 (MaxTotalPrice == null || productsRestockingBill.ProductsBought.Select(x => (x.PricePerUnit * x.Count
                 ) - x.Discount).Sum() <= MaxTotalPrice));
+            
         }
     }
 }

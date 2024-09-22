@@ -1,4 +1,3 @@
-using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using MyWarsha_DTOs.ProductDTOs;
 using MyWarsha_Interfaces.RepositoriesInterfaces;
@@ -22,35 +21,8 @@ namespace MyWarsha_API.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         public async Task<IActionResult> GetAll([FromQuery] ProductFilters filters, [FromQuery] PaginationPropreties paginationPropreties)
-        {
-            var predicate = PredicateBuilder.New<Product>(true);
-
-            if (!string.IsNullOrEmpty(filters.Name))
-            {
-                predicate = predicate.And(p => p.Name.Contains(filters.Name));
-            }
-
-            if (filters.CategoryId.HasValue)
-            {
-                predicate = predicate.And(p => p.CategoryId == filters.CategoryId);
-            }
-
-            if (filters.ProductTypeId.HasValue)
-            {
-                predicate = predicate.And(p => p.ProductTypeId == filters.ProductTypeId);
-            }
-
-            if (filters.ProductBrandId.HasValue)
-            {
-                predicate = predicate.And(p => p.ProductBrandId == filters.ProductBrandId);
-            }
-
-            if (filters.IsAvailable.HasValue)
-            {
-                predicate = predicate.And(p => p.IsAvailable == filters.IsAvailable);
-            }
-
-            var products = await _productRepository.GetAll(paginationPropreties, predicate);
+        {          
+            var products = await _productRepository.GetAll(paginationPropreties, filters.GetExpression());
 
             return Ok(products);
         }
@@ -113,6 +85,7 @@ namespace MyWarsha_API.Controllers
             }
 
             product.Name = productUpdateDto.Name ?? product.Name;
+            product.CategoryId = productUpdateDto.CategoryId ?? product.CategoryId;
             product.Description = productUpdateDto.Description ?? product.Description;
             product.ListPrice = productUpdateDto.ListPrice ?? product.ListPrice;
             product.SalePrice = productUpdateDto.SalePrice ?? product.SalePrice;
@@ -147,34 +120,8 @@ namespace MyWarsha_API.Controllers
         [ProducesResponseType(200)]
         public async Task<IActionResult> Count([FromQuery] ProductFilters filters)
         {
-            var predicate = PredicateBuilder.New<Product>(true);
 
-            if (!string.IsNullOrEmpty(filters.Name))
-            {
-                predicate = predicate.And(p => p.Name.Contains(filters.Name));
-            }
-
-            if (filters.CategoryId.HasValue)
-            {
-                predicate = predicate.And(p => p.CategoryId == filters.CategoryId);
-            }
-
-            if (filters.ProductTypeId.HasValue)
-            {
-                predicate = predicate.And(p => p.ProductTypeId == filters.ProductTypeId);
-            }
-
-            if (filters.ProductBrandId.HasValue)
-            {
-                predicate = predicate.And(p => p.ProductBrandId == filters.ProductBrandId);
-            }
-
-            if (filters.IsAvailable.HasValue)
-            {
-                predicate = predicate.And(p => p.IsAvailable == filters.IsAvailable);
-            }
-
-            var count = await _productRepository.Count(predicate);
+            var count = await _productRepository.Count(filters.GetExpression());
 
             return Ok(count);
         }
