@@ -21,7 +21,6 @@ public class AccountController : ControllerBase
         _jwtTokenGeneratorService = jwtTokenGeneratorService;
     }
 
-    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterModel model)
     {
